@@ -6,12 +6,14 @@ import com.dispatchloadbalancer.entity.DispatchAssignment;
 import com.dispatchloadbalancer.entity.Vehicle;
 import com.dispatchloadbalancer.entity.VehicleRoute;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TwoOptRouteOptimizer {
@@ -27,7 +29,12 @@ public class TwoOptRouteOptimizer {
             return;
         }
 
+        Vehicle vehicle = route.getVehicle();
+        log.debug("2-Opt optimization starting for vehicle {} with {} stops",
+                vehicle.getVehicleId(), assignments.size());
+
         boolean improved = true;
+        int improvementsCount = 0;
 
         // Continue until no shorter route is found
         while (improved) {
@@ -63,6 +70,7 @@ public class TwoOptRouteOptimizer {
 
                         currentDistance = newDistance;
                         improved = true;
+                        improvementsCount++;
 
                         break;
                     }
@@ -75,6 +83,8 @@ public class TwoOptRouteOptimizer {
         }
 
         updateRouteDetails(route);
+        log.debug("2-Opt completed for vehicle {}. Final distance: {} km (improvements applied: {})",
+                vehicle.getVehicleId(), route.getTotalDistanceKm(), improvementsCount);
     }
 
     // Calculate total distance for a given route sequence

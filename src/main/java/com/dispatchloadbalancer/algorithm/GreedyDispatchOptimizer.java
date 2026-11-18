@@ -5,6 +5,7 @@ import com.dispatchloadbalancer.entity.*;
 import com.dispatchloadbalancer.enums.*;
 import com.dispatchloadbalancer.strategy.DispatchOptimizationStrategy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class GreedyDispatchOptimizer implements DispatchOptimizationStrategy {
@@ -25,6 +27,8 @@ public class GreedyDispatchOptimizer implements DispatchOptimizationStrategy {
         if (orders == null || vehicles == null) {
             throw new IllegalArgumentException("Orders and vehicles cannot be null");
         }
+
+        log.debug("Greedy optimization started for {} orders across {} fleet vehicles", orders.size(), vehicles.size());
 
         // Create dispatch plan
         DispatchPlan plan = DispatchPlan.builder()
@@ -100,6 +104,10 @@ public class GreedyDispatchOptimizer implements DispatchOptimizationStrategy {
             if (bestRoute != null) {
 
                 assignOrder(bestRoute, order, bestPosition);
+                log.debug("Assigned order {} [weight: {} kg, priority: {}] to vehicle {} (current load: {}/{} kg)",
+                        order.getOrderId(), order.getPackageWeight(), order.getPriority(),
+                        bestRoute.getVehicle().getVehicleId(), bestRoute.getTotalLoad(),
+                        bestRoute.getVehicle().getCapacity());
 
             } else {
 
@@ -113,6 +121,8 @@ public class GreedyDispatchOptimizer implements DispatchOptimizationStrategy {
                         .build();
 
                 plan.addUnassignedOrder(unassigned);
+                log.debug("Order {} [weight: {} kg, priority: {}] unassignable. Reason: {}",
+                        order.getOrderId(), order.getPackageWeight(), order.getPriority(), reason);
             }
         }
 
@@ -130,6 +140,8 @@ public class GreedyDispatchOptimizer implements DispatchOptimizationStrategy {
         }
 
         plan.setTotalDistanceKm(totalDistance);
+        log.debug("Greedy optimization completed: {} active routes formed, {} unassigned orders, total distance: {} km",
+                plan.getRoutes().size(), plan.getUnassignedOrders().size(), totalDistance);
 
         return plan;
     }

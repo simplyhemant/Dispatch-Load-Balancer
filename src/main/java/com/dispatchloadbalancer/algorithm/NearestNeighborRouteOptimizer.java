@@ -6,11 +6,13 @@ import com.dispatchloadbalancer.entity.DispatchAssignment;
 import com.dispatchloadbalancer.entity.Vehicle;
 import com.dispatchloadbalancer.entity.VehicleRoute;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class NearestNeighborRouteOptimizer {
@@ -27,6 +29,8 @@ public class NearestNeighborRouteOptimizer {
         }
 
         Vehicle vehicle = route.getVehicle();
+        log.debug("Nearest Neighbor optimization starting for vehicle {} with {} stops",
+                vehicle.getVehicleId(), assignments.size());
 
         double currentLat = vehicle.getCurrentLatitude();
         double currentLon = vehicle.getCurrentLongitude();
@@ -76,6 +80,8 @@ public class NearestNeighborRouteOptimizer {
         assignments.addAll(optimizedRoute);
 
         updateRouteDetails(route);
+        log.debug("Nearest Neighbor completed for vehicle {}. Optimized distance: {} km",
+                vehicle.getVehicleId(), route.getTotalDistanceKm());
     }
 
     private void updateRouteDetails(VehicleRoute route) {
