@@ -130,21 +130,22 @@ public class TestController {
 
                         <div class="links">
 
-                            <a href="%s">
+                            <a href="__BASE_URL__">
                                 Live Backend URL
                             </a>
 
-                            <a href="%s/swagger-ui.html" target="_blank">
+                            <a href="__BASE_URL__/swagger-ui.html" target="_blank">
                                 Swagger UI
                             </a>
 
-                            <a href="%s/api-docs" target="_blank">
+                            <a href="__BASE_URL__/api-docs" target="_blank">
                                 OpenAPI Documentation
                             </a>
 
                             <a href="https://documenter.getpostman.com/view/39898850/2sBYHbsbjw"
                                class="postman"
-                               target="_blank">
+                               target="_blank"
+                               rel="noopener noreferrer">
                                 Postman API Documentation
                             </a>
 
@@ -157,6 +158,6 @@ public class TestController {
                     </div>
                 </body>
                 </html>
-                """.formatted(baseUrl, baseUrl, baseUrl);
+                """.replace("__BASE_URL__", baseUrl);
     }
 }
