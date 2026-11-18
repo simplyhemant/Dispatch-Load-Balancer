@@ -2,6 +2,17 @@
 
 A high-performance, production-grade Spring Boot service designed to solve the **Capacitated Vehicle Routing Problem (CVRP)** with strict **multi-tier priority scheduling**, **vehicle load capacity constraints**, and **Haversine great-circle distance minimization**.
 
+## Live Demo & API Documentation
+
+| Resource | Link |
+|---|---|
+| **Live Backend** | [Dispatch Load Balancer](https://dispatch-load-balancer-v15h.onrender.com/) |
+| **Swagger UI** | [Explore API Documentation](https://dispatch-load-balancer-v15h.onrender.com/swagger-ui.html) |
+| **OpenAPI Specification** | [View OpenAPI JSON](https://dispatch-load-balancer-v15h.onrender.com/api-docs) |
+| **Postman Documentation** | [Explore Postman Collection](https://documenter.getpostman.com/view/39898850/2sBYHbsbjw) |
+
+> **Note:** The application is hosted on Render's free tier. The service may take some time to respond after a period of inactivity.
+
 ---
 
 ## Table of Contents
