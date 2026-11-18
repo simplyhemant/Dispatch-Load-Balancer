@@ -52,12 +52,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiResponse<Void>> handleUnreadableBody(HttpMessageNotReadableException ex) {
-        log.warn("Malformed HTTP request body: {}", ex.getMessage());
-        return build(HttpStatus.BAD_REQUEST,
-                "Malformed JSON or invalid value (for example, priority must be HIGH, MEDIUM or LOW)");
-    }
+    public ResponseEntity<ApiResponse<Void>> handleUnreadableBody(
+            HttpMessageNotReadableException ex) {
 
+        log.warn("Request body is missing or malformed: {}", ex.getMessage());
+
+        String message = ex.getMessage() != null
+                && ex.getMessage().contains("Required request body is missing")
+                ? "Request body cannot be empty."
+                : "Malformed JSON or invalid field value.";
+
+        return build(HttpStatus.BAD_REQUEST, message);
+    }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<Void>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.warn("Type mismatch for parameter '{}': {}", ex.getName(), ex.getMessage());
