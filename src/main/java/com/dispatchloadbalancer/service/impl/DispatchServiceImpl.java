@@ -20,8 +20,12 @@ public class DispatchServiceImpl implements DispatchService {
     private final DispatchOptimizationStrategy dispatchOptimizationStrategy;
 
     @Override
-    public DispatchPlanResponse generateDispatchPlan(DispatchRequest request) {
-        // TODO: Implement dispatch plan generation logic
+    public DispatchPlanResponse getDispatchPlan() {
         return null;
+    }
+
+    @Override
+    public void reset() {
+
     }
 }
