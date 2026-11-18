@@ -8,6 +8,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 public class TestController {
 
+    private static final String POSTMAN_URL =
+            "https://documenter.getpostman.com/view/39898850/2sBYHbsbjw";
+
+    private static final String GITHUB_URL =
+            "https://github.com/simplyhemant/Dispatch-Load-Balancer";
+
     @GetMapping(value = "/", produces = "text/html")
     public String testBackend() {
 
@@ -22,6 +28,7 @@ public class TestController {
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
                     <title>Dispatch Load Balancer</title>
 
                     <style>
@@ -103,6 +110,14 @@ public class TestController {
                             background: #e85d2a;
                         }
 
+                        .github {
+                            background: #24292f;
+                        }
+
+                        .github:hover {
+                            background: #000;
+                        }
+
                         .footer {
                             margin-top: 25px;
                             font-size: 12px;
@@ -112,6 +127,7 @@ public class TestController {
                 </head>
 
                 <body>
+
                     <div class="container">
 
                         <h1>Backend is Running!</h1>
@@ -134,19 +150,30 @@ public class TestController {
                                 Live Backend URL
                             </a>
 
-                            <a href="__BASE_URL__/swagger-ui.html" target="_blank">
+                            <a href="__BASE_URL__/swagger-ui.html"
+                               target="_blank"
+                               rel="noopener noreferrer">
                                 Swagger UI
                             </a>
 
-                            <a href="__BASE_URL__/api-docs" target="_blank">
+                            <a href="__BASE_URL__/api-docs"
+                               target="_blank"
+                               rel="noopener noreferrer">
                                 OpenAPI Documentation
                             </a>
 
-                            <a href="https://documenter.getpostman.com/view/39898850/2sBYHbsbjw"
+                            <a href="__POSTMAN_URL__"
                                class="postman"
                                target="_blank"
                                rel="noopener noreferrer">
                                 Postman API Documentation
+                            </a>
+
+                            <a href="__GITHUB_URL__"
+                               class="github"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                GitHub Repository
                             </a>
 
                         </div>
@@ -156,8 +183,12 @@ public class TestController {
                         </div>
 
                     </div>
+
                 </body>
                 </html>
-                """.replace("__BASE_URL__", baseUrl);
+                """
+                .replace("__BASE_URL__", baseUrl)
+                .replace("__POSTMAN_URL__", POSTMAN_URL)
+                .replace("__GITHUB_URL__", GITHUB_URL);
     }
 }
